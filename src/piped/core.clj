@@ -65,7 +65,8 @@
            acker-parallelism
            nacker-parallelism
            blocking-consumers
-           queue-visibility-timeout-seconds]
+           queue-visibility-timeout-seconds
+           acker-batch-size]
     :as   opts}]
 
   (specs/assert-options opts)
@@ -84,7 +85,7 @@
                   acker-chan           (async/chan)
                   nacker-chan          (async/chan)
                   pipe                 (async/chan)
-                  acker-batched        (utils/deadline-batching acker-chan 10)
+                  acker-batched        (utils/deadline-batching acker-chan (or acker-batch-size 10))
                   nacker-batched       (utils/combo-batching nacker-chan 5000 10)
                   composed-consumer    (if transform-fn (comp consumer-fn transform-fn) consumer-fn)]
 

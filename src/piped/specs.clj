@@ -13,6 +13,7 @@
 (s/def :piped/extend #{:extend})
 (s/def :piped/delay-seconds nat-int?)
 (s/def :piped/queue-visibility-timeout-seconds pos-int?)
+(s/def :piped/acker-batch-size pos-int?)
 (s/def :piped/action-map
   (s/keys
     :req-un [:piped/action]
@@ -33,7 +34,8 @@
             :piped/nacker-parallelism
             :piped/blocking-consumers
             :piped/transform-fn
-            :piped/queue-visibility-timeout-seconds]))
+            :piped/queue-visibility-timeout-seconds
+            :piped/acker-batch-size]))
 
 (defn assert-options [config]
   (if-not (s/valid? :piped/options-map config)
